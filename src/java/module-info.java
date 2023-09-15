@@ -4,5 +4,6 @@ module Email.App {
     requires javafx.graphics;
     requires javafx.web;
 
-    opens com.email.login;
+    opens com.email.controllers;
+    opens com.email;
 }

@@ -1,4 +1,4 @@
-package com.email.login;
+package com.email.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
