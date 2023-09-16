@@ -3,5 +3,20 @@ package com.email.visuals;
 public enum FontSize {
     SMALL,
     MEDIUM,
-    BIG
+    BIG;
+
+    public static String getCssPath(FontSize fontSize) {
+        String cssDirectory = "/com/email/view/css/";
+
+        switch (fontSize) {
+            case SMALL:
+                return String.format("%sfontSmall.css", cssDirectory);
+            case MEDIUM:
+                return String.format("%sfontMedium.css", cssDirectory);
+            case BIG:
+                return String.format("%sfontBig.css", cssDirectory);
+            default:
+                return null;
+        }
+    }
 }

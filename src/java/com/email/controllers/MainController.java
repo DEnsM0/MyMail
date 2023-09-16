@@ -30,4 +30,10 @@ public class MainController extends CommonController {
         getViewFactory().showOptions();
     }
 
+    @FXML
+    void addAccountAction() {
+        getViewFactory().showLogin();
+    }
+
+
 }
