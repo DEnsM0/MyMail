@@ -1,9 +1,10 @@
-package com.email.utils;
+package com.email.visuals;
 
 import com.email.controllers.CommonController;
 import com.email.controllers.LoginController;
 import com.email.controllers.MainController;
 import com.email.controllers.OptionsController;
+import com.email.utils.EmailManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,17 @@ import java.io.IOException;
 public class ViewFactory {
 
     private final EmailManager emailManager;
+    private ColorTheme colorTheme = ColorTheme.DEFAULT;
+
+    public ColorTheme getColorTheme() {
+        return colorTheme;
+    }
+
+    public FontSize getFontSize() {
+        return fontSize;
+    }
+
+    private FontSize fontSize = FontSize.MEDIUM;
 
     public ViewFactory(EmailManager emailManager) {
         this.emailManager = emailManager;

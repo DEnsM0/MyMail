@@ -1,7 +1,7 @@
 package com.email.controllers;
 
 import com.email.utils.EmailManager;
-import com.email.utils.ViewFactory;
+import com.email.visuals.ViewFactory;
 import javafx.stage.Stage;
 
 public abstract class CommonController {

@@ -1,7 +1,7 @@
 package com.email.controllers;
 
 import com.email.utils.EmailManager;
-import com.email.utils.ViewFactory;
+import com.email.visuals.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
