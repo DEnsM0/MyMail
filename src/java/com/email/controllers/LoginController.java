@@ -6,6 +6,7 @@ import com.email.services.LoginService;
 import com.email.utils.EmailManager;
 import com.email.visuals.ViewFactory;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -28,22 +29,34 @@ public class LoginController extends CommonController {
 
     @FXML
     void loginButtonClicked() {
+        System.out.println("loginButtonClicked");
         if(fieldsAreValid()){
             EmailAccount emailAccount = new EmailAccount(emailField.getText(), passwordField.getText());
             LoginService loginService = new LoginService(emailAccount, getEmailManager());
+            loginService.start();
+            loginService.setOnSucceeded(e ->{
+                EmailLoginStatus loginStatus = loginService.getValue();
 
-            EmailLoginStatus loginStatus = loginService.login();
-
-            switch (loginStatus){
-                case SUCCESS -> {
-                    System.out.println("logged in");
-                    return;
+                switch (loginStatus){
+                    case SUCCESS -> {
+                        getViewFactory().showMain();
+                        ViewFactory.closeStage(getStage());
+                        break;
+                    }
+                    case FAILED_BY_CREDENTIALS -> {
+                        errorLabel.setText("Wrong email or password.");
+                        break;
+                    }
+                    case FAILED_BY_UNEXPECTED_ERROR -> {
+                        errorLabel.setText("Unexpected error.");
+                        break;
+                    }
+                    default -> {
+                        break;
+                    }
                 }
-            }
+            });
         }
-        System.out.println("loginButtonClicked");
-        getViewFactory().showMain();
-        ViewFactory.closeStage(getStage());
     }
 
     private boolean fieldsAreValid() {

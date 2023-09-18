@@ -37,11 +37,12 @@ public class EmailAccount {
         this.address = address;
         this.password = password;
         properties = new Properties();
+        properties.put("incomingHost", "imap.gmail.com");
         properties.put("mail.store.protocol", "imaps");
+
         properties.put("mail.transport.protocol", "smtps");
-        properties.put("incomingHost", "imap.gmx.net");
-        properties.put("mail.smtps.host", "mail.gmx.net");
+        properties.put("mail.smtps.host", "smtp.gmail.com");
         properties.put("mail.smtps.auth", "true");
-        properties.put("outgoingHost", "mail.gmx.net");
+        properties.put("outgoingHost", "smtp.gmail.com");
     }
 }

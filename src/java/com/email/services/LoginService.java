@@ -2,10 +2,12 @@ package com.email.services;
 
 import com.email.model.EmailAccount;
 import com.email.utils.EmailManager;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 
 import javax.mail.*;
 
-public class LoginService {
+public class LoginService extends Service<EmailLoginStatus> {
     EmailAccount emailAccount;
     EmailManager emailManager;
 
@@ -14,7 +16,7 @@ public class LoginService {
         this.emailManager = emailManager;
     }
 
-    public EmailLoginStatus login(){
+    private EmailLoginStatus login(){
         Authenticator authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -28,6 +30,7 @@ public class LoginService {
                     emailAccount.getAddress(),
                     emailAccount.getPassword());
             emailAccount.setStore(store);
+            emailManager.addAccount(emailAccount);
         } catch (NoSuchProviderException e) {
             e.printStackTrace();
             return EmailLoginStatus.FAILED_BY_NETWORK;
@@ -43,5 +46,15 @@ public class LoginService {
         }
 
         return EmailLoginStatus.SUCCESS;
+    }
+
+    @Override
+    protected Task<EmailLoginStatus> createTask() {
+        return new Task<EmailLoginStatus>() {
+            @Override
+            protected EmailLoginStatus call() throws Exception {
+                return login();
+            }
+        };
     }
 }
