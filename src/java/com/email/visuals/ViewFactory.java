@@ -19,6 +19,11 @@ public class ViewFactory {
     private ColorTheme colorTheme = ColorTheme.DEFAULT;
     private FontSize fontSize = FontSize.MEDIUM;
     private static ArrayList<Stage> activeStages;
+    private boolean mainInitialized = false;
+
+    public boolean isMainInitialized (){
+        return mainInitialized;
+    }
 
     public ColorTheme getColorTheme() {
         return colorTheme;
@@ -75,6 +80,7 @@ public class ViewFactory {
         System.out.println("show main window");
         Stage stage = new Stage();
         buildStage(new MainController(emailManager, this, "/com/email/view/main.fxml", stage));
+        mainInitialized = true;
     }
 
     public void showOptions(){

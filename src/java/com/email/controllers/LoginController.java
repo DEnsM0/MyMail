@@ -39,7 +39,9 @@ public class LoginController extends CommonController {
 
                 switch (loginStatus){
                     case SUCCESS -> {
-                        getViewFactory().showMain();
+                        if(getViewFactory().isMainInitialized()){
+                            getViewFactory().showMain();
+                        }
                         ViewFactory.closeStage(getStage());
                         break;
                     }
