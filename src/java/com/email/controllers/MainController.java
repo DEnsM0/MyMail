@@ -4,6 +4,7 @@ package com.email.controllers;
 import com.email.model.EmailMessage;
 import com.email.model.EmailSize;
 import com.email.model.EmailTreeItem;
+import com.email.services.MessageRenderService;
 import com.email.utils.EmailManager;
 import com.email.visuals.ViewFactory;
 import javafx.fxml.FXML;
@@ -48,6 +49,8 @@ public class MainController extends CommonController implements Initializable {
     @FXML
     private TableColumn<EmailMessage, Date> dateColumn;
 
+    private MessageRenderService messageRenderService;
+
     public MainController(EmailManager emailManager, ViewFactory viewFactory, String fxml, Stage stage) {
         super(emailManager, viewFactory, fxml, stage);
     }
@@ -69,6 +72,22 @@ public class MainController extends CommonController implements Initializable {
         setUpTableView();
         setUpFolderSelection();
         setUpBoldRows();
+        setUpMessageRenderService();
+        setUpMessageSelection();
+    }
+
+    private void setUpMessageSelection() {
+        emailsTableView.setOnMouseClicked(e -> {
+            EmailMessage emailMessage = emailsTableView.getSelectionModel().getSelectedItem();
+            if(emailMessage != null){
+                messageRenderService.setEmailMessage(emailMessage);
+                messageRenderService.restart();
+            }
+        });
+    }
+
+    private void setUpMessageRenderService() {
+        messageRenderService = new MessageRenderService(emailWebView.getEngine());
     }
 
     private void setUpBoldRows() {
