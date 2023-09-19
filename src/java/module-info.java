@@ -6,6 +6,8 @@ module Email.App {
     requires activation;
     requires java.mail;
 
-    opens com.email.controllers;
     opens com.email;
+    opens com.email.controllers;
+    opens com.email.model;
+    opens com.email.visuals;
 }

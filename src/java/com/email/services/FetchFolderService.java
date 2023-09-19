@@ -1,5 +1,6 @@
 package com.email.services;
 
+import com.email.model.EmailMessage;
 import com.email.model.EmailTreeItem;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -38,10 +39,34 @@ public class FetchFolderService extends Service<Void> {
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<>(folder.getName());
             foldersRoot.getChildren().add(emailTreeItem);
             foldersRoot.setExpanded(true);
+            fetchEmailsinFolder(folder, emailTreeItem);
             if(folder.getType() == Folder.HOLDS_FOLDERS){
                 Folder[] subFolders = folder.list();
                 handleFolders(subFolders, emailTreeItem);
             }
         }
+    }
+
+    private void fetchEmailsinFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
+        Service fetchEmailsService = new Service() {
+            @Override
+            protected Task createTask() {
+                return new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        if(folder.getType() != Folder.HOLDS_FOLDERS){
+                            folder.open(Folder.READ_WRITE);
+                            int size = folder.getMessageCount();
+                            for(int i = size; i >0; i--){
+                                emailTreeItem.addEmail(folder.getMessage(i));
+                            }
+                        }
+                        return null;
+                    }
+                };
+            }
+        };
+        fetchEmailsService.start();
+
     }
 }
