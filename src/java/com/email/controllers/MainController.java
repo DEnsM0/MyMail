@@ -9,10 +9,7 @@ import com.email.utils.EmailManager;
 import com.email.visuals.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 
@@ -24,7 +21,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainController extends CommonController implements Initializable {
+    private MenuItem markUnread = new MenuItem("Mark unread");
 
+    private MenuItem deleteMessage = new MenuItem("Delete message");
     @FXML
     private WebView emailWebView;
 
@@ -74,6 +73,17 @@ public class MainController extends CommonController implements Initializable {
         setUpBoldRows();
         setUpMessageRenderService();
         setUpMessageSelection();
+        setUpContextMenus();
+    }
+
+    private void setUpContextMenus() {
+        markUnread.setOnAction(e -> {
+            getEmailManager().setUnread();
+        });
+        deleteMessage.setOnAction(e -> {
+            getEmailManager().deleteSelectedMessage();
+            emailWebView.getEngine().loadContent("");
+        });
     }
 
     private void setUpMessageSelection() {
@@ -122,6 +132,7 @@ public class MainController extends CommonController implements Initializable {
         recipientColumn.setCellValueFactory(new PropertyValueFactory<>("recipient"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        emailsTableView.setContextMenu(new ContextMenu(markUnread,deleteMessage));
     }
 
     private void setUpEmailsTreeView() {
