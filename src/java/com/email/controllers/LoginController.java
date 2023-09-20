@@ -1,12 +1,11 @@
 package com.email.controllers;
 
 import com.email.model.EmailAccount;
-import com.email.services.EmailLoginStatus;
+import com.email.utils.EmailLoginStatus;
 import com.email.services.LoginService;
 import com.email.utils.EmailManager;
 import com.email.visuals.ViewFactory;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;

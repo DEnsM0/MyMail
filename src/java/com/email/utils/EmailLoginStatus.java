@@ -1,4 +1,4 @@
-package com.email.services;
+package com.email.utils;
 
 public enum EmailLoginStatus {
     SUCCESS,

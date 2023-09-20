@@ -1,9 +1,6 @@
 package com.email.visuals;
 
-import com.email.controllers.CommonController;
-import com.email.controllers.LoginController;
-import com.email.controllers.MainController;
-import com.email.controllers.OptionsController;
+import com.email.controllers.*;
 import com.email.utils.EmailManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -87,6 +84,12 @@ public class ViewFactory {
         System.out.println("show options window");
         Stage stage = new Stage();
         buildStage(new OptionsController(emailManager, this, "/com/email/view/options-panel.fxml", stage));
+    }
+
+    public void showComposeEmail(){
+        System.out.println("show compose window");
+        Stage stage = new Stage();
+        buildStage(new ComposeEmailController(emailManager, this, "/com/email/view/compose-email.fxml", stage));
     }
 
     public void updateView() {

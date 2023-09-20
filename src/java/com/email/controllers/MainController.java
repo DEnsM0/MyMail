@@ -64,6 +64,11 @@ public class MainController extends CommonController implements Initializable {
         getViewFactory().showLogin();
     }
 
+    @FXML
+    void composeEmailAction() {
+        getViewFactory().showComposeEmail();
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

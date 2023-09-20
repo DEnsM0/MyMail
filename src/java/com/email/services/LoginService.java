@@ -1,6 +1,7 @@
 package com.email.services;
 
 import com.email.model.EmailAccount;
+import com.email.utils.EmailLoginStatus;
 import com.email.utils.EmailManager;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
