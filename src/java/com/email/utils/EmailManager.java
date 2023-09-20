@@ -1,16 +1,22 @@
 package com.email.utils;
 
 import com.email.model.EmailAccount;
+import com.email.model.EmailMessage;
 import com.email.model.EmailTreeItem;
 import com.email.services.FetchFolderService;
 import com.email.services.UpdateFolderService;
 import javafx.scene.control.TreeItem;
 
+import javax.mail.Flags;
 import javax.mail.Folder;
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmailManager {
+    private EmailMessage selectedMessage;
+    private EmailTreeItem<String> selectedFolder;
+
     private UpdateFolderService updateFolderService;
     /**
      * Folder handling.
@@ -27,6 +33,22 @@ public class EmailManager {
         return folderList;
     }
 
+    public EmailMessage getSelectedMessage() {
+        return selectedMessage;
+    }
+
+    public void setSelectedMessage(EmailMessage selectedMessage) {
+        this.selectedMessage = selectedMessage;
+    }
+
+    public EmailTreeItem<String> getSelectedFolder() {
+        return selectedFolder;
+    }
+
+    public void setSelectedFolder(EmailTreeItem<String> selectedFolder) {
+        this.selectedFolder = selectedFolder;
+    }
+
     public EmailManager(){
         updateFolderService = new UpdateFolderService(folderList);
         updateFolderService.start();
@@ -37,5 +59,15 @@ public class EmailManager {
         FetchFolderService fetchFolderService = new FetchFolderService(emailAccount.getStore(), treeItem, folderList);
         fetchFolderService.start();
         foldersRoot.getChildren().add(treeItem);
+    }
+
+    public void setRead() {
+        try {
+            selectedMessage.setRead(true);
+            selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, true);
+            selectedFolder.decrementUnread();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

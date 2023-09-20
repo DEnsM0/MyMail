@@ -1,5 +1,6 @@
 package com.email.model;
 
+import com.email.utils.EmailManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
@@ -26,8 +27,16 @@ public class EmailTreeItem<String> extends TreeItem<String> {
     }
 
     public void addEmail(Message message) throws MessagingException {
+        emailMessages.add(fetchMessage(message));
+    }
+
+    public void addMessageToTop(Message message) throws MessagingException {
+        emailMessages.add(0, fetchMessage(message));
+    }
+
+    private EmailMessage fetchMessage(Message message) throws MessagingException {
         boolean messageRead = message.getFlags().contains(Flags.Flag.SEEN);
-        emailMessages.add(new EmailMessage(
+        EmailMessage emailMessage = new EmailMessage(
                 message.getSubject(),
                 message.getFrom()[0].toString(),
                 message.getRecipients(MimeMessage.RecipientType.TO)[0].toString(),
@@ -35,11 +44,11 @@ public class EmailTreeItem<String> extends TreeItem<String> {
                 message.getSentDate(),
                 messageRead,
                 message
-        ));
+        );
         if(!messageRead){
             incrementUnread();
         }
-        System.out.println("added to" + name + message.getSubject());
+        return emailMessage;
     }
 
     private void updateName(){
@@ -53,4 +62,9 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         unreadCounter++;
         updateName();
     }
+    public void decrementUnread(){
+        unreadCounter--;
+        updateName();
+    }
+
 }

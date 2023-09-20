@@ -80,6 +80,10 @@ public class MainController extends CommonController implements Initializable {
         emailsTableView.setOnMouseClicked(e -> {
             EmailMessage emailMessage = emailsTableView.getSelectionModel().getSelectedItem();
             if(emailMessage != null){
+                getEmailManager().setSelectedMessage(emailMessage);
+                if(!emailMessage.isRead()){
+                    getEmailManager().setRead();
+                }
                 messageRenderService.setEmailMessage(emailMessage);
                 messageRenderService.restart();
             }
@@ -106,6 +110,7 @@ public class MainController extends CommonController implements Initializable {
         emailsTreeView.setOnMouseClicked(e -> {
             EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
             if(item != null){
+                getEmailManager().setSelectedFolder(item);
                 emailsTableView.setItems(item.getEmailMessages());
             }
         });
