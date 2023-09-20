@@ -96,11 +96,7 @@ public class MainController extends CommonController implements Initializable {
             protected void updateItem(EmailMessage item, boolean empty){
                 super.updateItem(item, empty);
                 if(item != null){
-                    if(item.isRead()){
-                        setStyle("");
-                    } else {
-                        setStyle("-fx-font-weight: bold");
-                    }
+                    setStyle(item.isRead() ? "" : "-fx-font-weight: bold");
                 }
             }
         });

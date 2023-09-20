@@ -8,14 +8,19 @@ import javafx.concurrent.Task;
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.Store;
+import javax.mail.event.MessageCountEvent;
+import javax.mail.event.MessageCountListener;
+import java.util.List;
 
 public class FetchFolderService extends Service<Void> {
     private Store store;
     private EmailTreeItem<String> foldersRoot;
+    private List<Folder> folderList;
 
-    public FetchFolderService(Store store, EmailTreeItem<String> foldersRoot) {
+    public FetchFolderService(Store store, EmailTreeItem<String> foldersRoot, List<Folder> folderList) {
         this.store = store;
         this.foldersRoot = foldersRoot;
+        this.folderList = folderList;
     }
 
     @Override
@@ -36,15 +41,31 @@ public class FetchFolderService extends Service<Void> {
 
     private void handleFolders(Folder[] folders, EmailTreeItem<String> foldersRoot) throws MessagingException {
         for(Folder folder: folders){
+            folderList.add(folder);
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<>(folder.getName());
             foldersRoot.getChildren().add(emailTreeItem);
             foldersRoot.setExpanded(true);
             fetchEmailsinFolder(folder, emailTreeItem);
+            addMessageListenerToFolder(folder, emailTreeItem);
             if(folder.getType() == Folder.HOLDS_FOLDERS){
                 Folder[] subFolders = folder.list();
                 handleFolders(subFolders, emailTreeItem);
             }
         }
+    }
+
+    private void addMessageListenerToFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
+        folder.addMessageCountListener(new MessageCountListener() {
+            @Override
+            public void messagesAdded(MessageCountEvent e) {
+                System.out.println("message added");
+            }
+
+            @Override
+            public void messagesRemoved(MessageCountEvent e) {
+                System.out.println("message removed");
+            }
+        });
     }
 
     private void fetchEmailsinFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
