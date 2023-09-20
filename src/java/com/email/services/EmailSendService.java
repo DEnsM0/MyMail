@@ -5,6 +5,11 @@ import com.email.utils.EmailSendStatus;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
+import javax.mail.*;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
 public class EmailSendService extends Service<EmailSendStatus> {
     private EmailAccount emailAccount;
     private String subject;
@@ -22,8 +27,35 @@ public class EmailSendService extends Service<EmailSendStatus> {
     protected Task<EmailSendStatus> createTask() {
         return new Task<EmailSendStatus>() {
             @Override
-            protected EmailSendStatus call() throws Exception {
-                return null;
+            protected EmailSendStatus call() {
+                try {
+                    MimeMessage mimeMessage = new MimeMessage(emailAccount.getSession());
+                    mimeMessage.setFrom(emailAccount.getAddress());
+                    mimeMessage.addRecipients(Message.RecipientType.TO, recipient);
+                    mimeMessage.setSubject(subject);
+
+                    Multipart multipart = new MimeMultipart();
+                    BodyPart bodyPart = new MimeBodyPart();
+                    bodyPart.setContent(content,"text/html");
+                    multipart.addBodyPart(bodyPart);
+                    mimeMessage.setContent(multipart);
+
+                    Transport transport = emailAccount.getSession().getTransport();
+                    transport.connect(
+                            emailAccount.getProperties().getProperty("outgoingHost"),
+                            emailAccount.getAddress(),
+                            emailAccount.getPassword()
+                    );
+                    transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+                    transport.close();
+                    return EmailSendStatus.SUCCESS;
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                    return EmailSendStatus.FAILED_BY_PROVIDER;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return EmailSendStatus.FAILED_BY_UNEXPECTED_ERROR;
+                }
             }
         };
     }
