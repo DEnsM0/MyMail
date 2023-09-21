@@ -16,6 +16,6 @@
       <PasswordField fx:id="passwordField" layoutX="149.0" layoutY="194.0" prefHeight="26.0" prefWidth="300.0" />
       <Button layoutX="149.0" layoutY="251.0" mnemonicParsing="false" onAction="#loginButtonClicked" text="Login" />
       <Hyperlink layoutX="149.0" layoutY="291.0" text="Forgot Password?" />
-      <Label fx:id="errorLabel" layoutX="276.0" layoutY="320.0" text="" textFill="red" />
+      <Label fx:id="errorLabel" layoutX="276.0" layoutY="320.0" text="" styleClass="errorText"  />
    </children>
 </AnchorPane>
