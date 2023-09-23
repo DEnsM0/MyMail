@@ -84,11 +84,11 @@ public class AttachmentButton extends Button {
     }
 
     private void colorBlue(){
-        this.setStyle("-fx-background-color: Blue");
+        this.setStyle("-fx-background-color: #4E91FD");
     }
 
     private void colorGreen(){
-        this.setStyle("-fx-background-color: Green");
+        this.setStyle("-fx-background-color: #a2d895");
     }
 
     
