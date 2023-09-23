@@ -22,53 +22,41 @@ import java.util.ResourceBundle;
 
 public class MainController extends CommonController implements Initializable {
     private MenuItem markUnread = new MenuItem("Mark unread");
-
     private MenuItem deleteMessage = new MenuItem("Delete message");
+    private MenuItem showEmailDetails = new MenuItem("View details");
+    private MessageRenderService messageRenderService;
     @FXML
     private WebView emailWebView;
-
     @FXML
     private TableView<EmailMessage> emailsTableView;
-
     @FXML
     private TreeView<String> emailsTreeView;
-
     @FXML
     private TableColumn<EmailMessage, String> recipientColumn;
-
     @FXML
     private TableColumn<EmailMessage, String> senderColumn;
-
     @FXML
     private TableColumn<EmailMessage, EmailSize> sizeColumn;
-
     @FXML
     private TableColumn<EmailMessage, String> subjectColumn;
-
     @FXML
     private TableColumn<EmailMessage, Date> dateColumn;
-
-    private MessageRenderService messageRenderService;
-
-    public MainController(EmailManager emailManager, ViewFactory viewFactory, String fxml, Stage stage) {
-        super(emailManager, viewFactory, fxml, stage);
-    }
-
     @FXML
     void openOptions() {
         getViewFactory().showOptions();
     }
-
     @FXML
     void addAccountAction() {
         getViewFactory().showLogin();
     }
-
     @FXML
     void composeEmailAction() {
         getViewFactory().showComposeEmail();
     }
 
+    public MainController(EmailManager emailManager, ViewFactory viewFactory, String fxml, Stage stage) {
+        super(emailManager, viewFactory, fxml, stage);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,6 +76,9 @@ public class MainController extends CommonController implements Initializable {
         deleteMessage.setOnAction(e -> {
             getEmailManager().deleteSelectedMessage();
             emailWebView.getEngine().loadContent("");
+        });
+        showEmailDetails.setOnAction(e -> {
+            getViewFactory().showEmailDetails();
         });
     }
 
@@ -137,7 +128,7 @@ public class MainController extends CommonController implements Initializable {
         recipientColumn.setCellValueFactory(new PropertyValueFactory<>("recipient"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        emailsTableView.setContextMenu(new ContextMenu(markUnread,deleteMessage));
+        emailsTableView.setContextMenu(new ContextMenu(markUnread,deleteMessage,showEmailDetails));
     }
 
     private void setUpEmailsTreeView() {

@@ -5,7 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.mail.Message;
-import java.util.Date;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeBodyPart;
+import java.util.*;
 
 public class EmailMessage {
     private SimpleStringProperty subject;
@@ -15,6 +17,7 @@ public class EmailMessage {
     private SimpleObjectProperty<Date> date;
     private boolean isRead;
     private Message message;
+    private Set<MimeBodyPart> attachments = new HashSet<>();
 
     public EmailMessage(String subject, String sender, String recipient, int size, Date date, boolean isRead, Message message) {
         this.subject = new SimpleStringProperty(subject);
@@ -56,5 +59,17 @@ public class EmailMessage {
 
     public Message getMessage() {
         return message;
+    }
+
+    public void addAttachment(MimeBodyPart mimeBodyPart) {
+        attachments.add(mimeBodyPart);
+    }
+
+    public boolean hasAttachments(){
+        return !attachments.isEmpty();
+    }
+
+    public Set<MimeBodyPart> getAttachments() {
+        return attachments;
     }
 }

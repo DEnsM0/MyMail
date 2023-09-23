@@ -55,6 +55,7 @@ public class ViewFactory {
         }
 
         Scene scene = new Scene(parent);
+        updateView(scene);
         Stage stage = controller.getStage();
         stage.setScene(scene);
         stage.show();
@@ -67,39 +68,37 @@ public class ViewFactory {
     }
 
     public void showLogin(){
-        System.out.println("show login window");
-        Stage stage = new Stage();
-        buildStage(new LoginController(emailManager, this, "/com/email/view/login.fxml", stage));
+        buildStage(new LoginController(emailManager, this, "/com/email/view/login.fxml", new Stage()));
 
     }
 
     public void showMain(){
-        System.out.println("show main window");
-        Stage stage = new Stage();
-        buildStage(new MainController(emailManager, this, "/com/email/view/main.fxml", stage));
+        buildStage(new MainController(emailManager, this, "/com/email/view/main.fxml", new Stage()));
         mainInitialized = true;
     }
 
     public void showOptions(){
-        System.out.println("show options window");
-        Stage stage = new Stage();
-        buildStage(new OptionsController(emailManager, this, "/com/email/view/options-panel.fxml", stage));
+        buildStage(new OptionsController(emailManager, this, "/com/email/view/options-panel.fxml", new Stage()));
     }
 
     public void showComposeEmail(){
-        System.out.println("show compose window");
-        Stage stage = new Stage();
-        buildStage(new ComposeEmailController(emailManager, this, "/com/email/view/compose-email.fxml", stage));
+        buildStage(new ComposeEmailController(emailManager, this, "/com/email/view/compose-email.fxml", new Stage()));
     }
 
-    public void updateView() {
+    public void showEmailDetails(){
+        buildStage(new EmailDetailsController(emailManager, this, "/com/email/view/email-details.fxml", new Stage()));
+    }
+
+    public void updateAllViews() {
         for (Stage stage : activeStages){
             Scene scene = stage.getScene();
-            scene.getStylesheets().clear();
-            scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(colorTheme)).toExternalForm());
-            scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(fontSize)).toExternalForm());
-
-
+            updateView(scene);
         }
+    }
+
+    private void updateView(Scene scene) {
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(colorTheme)).toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(fontSize)).toExternalForm());
     }
 }

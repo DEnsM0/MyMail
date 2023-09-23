@@ -9,6 +9,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import java.io.IOException;
 
 public class MessageRenderService extends Service {
@@ -52,14 +53,28 @@ public class MessageRenderService extends Service {
             stringBuffer.append(message.getContent().toString());
         } else if (isMultipart(contentType)) {
             Multipart multipart = (Multipart) message.getContent();
-            for(int i = multipart.getCount()-1; i>=0; i--){
-                BodyPart bodyPart = multipart.getBodyPart(i);
-                String bodyPArtContentType = bodyPart.getContentType();
-                if (isSimple(bodyPArtContentType)) {
-                    stringBuffer.append(bodyPart.getContent().toString());
-                }
+            loadMultipart(multipart, stringBuffer);
+        }
+    }
+
+    private void loadMultipart(Multipart multipart, StringBuffer stringBuffer) throws MessagingException, IOException {
+        for(int i = multipart.getCount()-1; i>=0; i--){
+            BodyPart bodyPart = multipart.getBodyPart(i);
+            String bodyPArtContentType = bodyPart.getContentType();
+            if (isSimple(bodyPArtContentType)) {
+                stringBuffer.append(bodyPart.getContent().toString());
+            } else if(isMultipart(bodyPArtContentType)){
+                Multipart multipart1 = (Multipart) bodyPart.getContent();
+                loadMultipart(multipart1, stringBuffer);
+            } else if(!isTextPlain(bodyPArtContentType)){
+                MimeBodyPart mimeBodyPart = (MimeBodyPart) bodyPart;
+                emailMessage.addAttachment(mimeBodyPart);
             }
         }
+    }
+
+    private boolean isTextPlain(String contentType){
+        return contentType.contains("TEXT/PLAIN");
     }
 
     private boolean isSimple(String contentType){

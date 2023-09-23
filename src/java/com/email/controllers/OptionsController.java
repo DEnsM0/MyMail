@@ -34,7 +34,7 @@ public class OptionsController extends CommonController implements Initializable
 //        System.out.printf("save button clicked. Theme: %s; FontSize: %s%n",
 //                getViewFactory().getColorTheme(),getViewFactory().getFontSize());
 //
-        getViewFactory().updateView();
+        getViewFactory().updateAllViews();
     }
 
 

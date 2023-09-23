@@ -2,10 +2,9 @@ package com.email;
 
 import com.email.utils.EmailManager;
 import com.email.visuals.ViewFactory;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Launcher extends Application {
+public class Application extends javafx.application.Application {
     public static void main(String[] args) {
         launch(args);
     }
@@ -14,7 +13,5 @@ public class Launcher extends Application {
     public void start(Stage stage) throws Exception {
         ViewFactory viewFactory = new ViewFactory(new EmailManager());
         viewFactory.showLogin();
-        viewFactory.updateView();
-
     }
 }
