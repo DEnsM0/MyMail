@@ -74,7 +74,6 @@ public class FetchFolderService extends Service<Void> {
 
             @Override
             public void messagesRemoved(MessageCountEvent e) {
-                System.out.println("message removed");
             }
         });
     }

@@ -31,9 +31,6 @@ public class OptionsController extends CommonController implements Initializable
     void saveButtonClicked() {
         getViewFactory().setColorTheme(colorThemeChoiceBox.getValue());
         getViewFactory().setFontSize(FontSize.values()[(int) fontSizeSlider.getValue()]);
-//        System.out.printf("save button clicked. Theme: %s; FontSize: %s%n",
-//                getViewFactory().getColorTheme(),getViewFactory().getFontSize());
-//
         getViewFactory().updateAllViews();
     }
 

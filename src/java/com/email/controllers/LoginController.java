@@ -28,7 +28,6 @@ public class LoginController extends CommonController {
 
     @FXML
     void loginButtonClicked() {
-        System.out.println("loginButtonClicked");
         if(fieldsAreValid()){
             EmailAccount emailAccount = new EmailAccount(emailField.getText(), passwordField.getText());
             LoginService loginService = new LoginService(emailAccount, getEmailManager());
