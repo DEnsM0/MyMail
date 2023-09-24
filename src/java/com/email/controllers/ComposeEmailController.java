@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
@@ -94,7 +95,8 @@ public class ComposeEmailController extends CommonController implements Initiali
             attachedFiles.add(file);
             attachmentsSize += file.length();
             if(attachedFiles.size()<2){
-                htmlEditor.setPrefHeight(htmlEditor.getPrefHeight() - 35);
+                htmlEditor.setPrefHeight(htmlEditor.getPrefHeight() - 40);
+                AnchorPane.setBottomAnchor(htmlEditor,AnchorPane.getBottomAnchor(htmlEditor) + 40);
             }
             AttachmentLabel label = new AttachmentLabel(file.getName(),file);
             label.setGraphic(iconResolver.getAttachmentIcon(file.getName()));
@@ -147,6 +149,7 @@ public class ComposeEmailController extends CommonController implements Initiali
                 attachmentsHBox.getChildren().remove(this);
                 if(attachedFiles.isEmpty()){
                     htmlEditor.setPrefHeight(htmlEditor.getPrefHeight() + 35);
+                    AnchorPane.setBottomAnchor(htmlEditor,AnchorPane.getBottomAnchor(htmlEditor) + 40);
                 }
             });
         }
