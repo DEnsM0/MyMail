@@ -13,6 +13,7 @@ public class PersistenceAccess {
         if(LOGIN_DATA_PATH.toFile().exists()){
             try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(LOGIN_DATA_PATH.toFile()))) {
                 List<LoginData> persistedList = (List<LoginData>) objectInputStream.readObject();
+                decodePasswords(persistedList);
                 result.addAll(persistedList);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -20,8 +21,18 @@ public class PersistenceAccess {
         }
         return result;
     }
+
+    private void decodePasswords(List<LoginData> persistedList) {
+        persistedList.forEach(loginData -> loginData.setPassword(Encoder.decode(loginData.getPassword())));
+    }
+
+    private void encodePasswords(List<LoginData> persistedList) {
+        persistedList.forEach(loginData -> loginData.setPassword(Encoder.encode(loginData.getPassword())));
+    }
+
     public void saveToPersistence(List<LoginData> loginData){
         try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(LOGIN_DATA_PATH.toFile()))) {
+            encodePasswords(loginData);
             objectOutputStream.writeObject(loginData);
         } catch (IOException e) {
             e.printStackTrace();
