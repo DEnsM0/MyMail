@@ -7,11 +7,12 @@ import javafx.scene.image.ImageView;
 import java.util.Arrays;
 
 public class IconResolver {
-    private static final String[] AUDIO_EXTENSIONS = { "mp3", "wav", "flac", "aac", "ogg", "m4a", "aiff", "wma", "amr", "opus" };
-    private static final String[] ARCHIVE_EXTENSIONS = { "zip", "rar", "7z", "tar", "gz", "bz2", "xz", "z", "cab", "iso"};
-    private static final String[] IMAGE_EXTENSIONS = { "jpg", "jpeg", "png", "gif", "bmp", "tiff", "svg", "ico", "webp", "exif"};
-    private static final String[] TEXT_EXTENSIONS = { "txt", "doc", "docx", "rtf", "pdf", "html", "xml", "csv", "json", "md"};
-    private static final String[] VIDEO_EXTENSIONS = { "mp4", "avi", "mkv", "mov", "wmv", "flv", "m4v", "3gp", "webm", "mpeg"};
+    private static final String[] AUDIO_EXTENSIONS = { ".mp3", ".wav", ".flac", ".aac", ".ogg", ".m4a", ".aiff", ".wma", ".amr", ".opus" };
+    private static final String[] ARCHIVE_EXTENSIONS = { ".zip", ".rar", ".7z", ".tar", ".gz", ".bz2", ".xz", ".z", ".cab", ".iso" };
+    private static final String[] IMAGE_EXTENSIONS = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".svg", ".ico", ".webp", ".exif" };
+    private static final String[] TEXT_EXTENSIONS = { ".txt", ".doc", ".docx", ".rtf", ".pdf", ".html", ".xml", ".csv", ".json", ".md" };
+    private static final String[] VIDEO_EXTENSIONS = { ".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".m4v", ".3gp", ".webm", ".mpeg" };
+
 
     public Node getFolderIcon(String folderName){
         String lowerCaseFolderName = folderName.toLowerCase();
