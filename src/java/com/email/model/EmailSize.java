@@ -3,7 +3,7 @@ package com.email.model;
 public class EmailSize implements Comparable<EmailSize> {
     private long size;
 
-    public EmailSize(int size) {
+    public EmailSize(long size) {
         this.size = size;
     }
 

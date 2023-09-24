@@ -19,7 +19,7 @@ public class EmailMessage {
     private Message message;
     private Set<MimeBodyPart> attachments = new HashSet<>();
 
-    public EmailMessage(String subject, String sender, String recipient, int size, Date date, boolean isRead, Message message) {
+    public EmailMessage(String subject, String sender, String recipient, long size, Date date, boolean isRead, Message message) {
         this.subject = new SimpleStringProperty(subject);
         this.sender = new SimpleStringProperty(sender);
         this.recipient = new SimpleStringProperty(recipient);
