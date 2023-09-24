@@ -10,11 +10,13 @@ public class PersistenceAccess {
 
     public List<LoginData> loadFromPersistence(){
         List<LoginData> result = new ArrayList<>();
-        try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(LOGIN_DATA_PATH.toFile()))) {
-            List<LoginData> persistedList = (List<LoginData>) objectInputStream.readObject();
-            result.addAll(persistedList);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        if(LOGIN_DATA_PATH.toFile().exists()){
+            try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(LOGIN_DATA_PATH.toFile()))) {
+                List<LoginData> persistedList = (List<LoginData>) objectInputStream.readObject();
+                result.addAll(persistedList);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
