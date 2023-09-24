@@ -148,8 +148,8 @@ public class ComposeEmailController extends CommonController implements Initiali
                 attachedFiles.remove(selectedFile);
                 attachmentsHBox.getChildren().remove(this);
                 if(attachedFiles.isEmpty()){
-                    htmlEditor.setPrefHeight(htmlEditor.getPrefHeight() + 35);
-                    AnchorPane.setBottomAnchor(htmlEditor,AnchorPane.getBottomAnchor(htmlEditor) + 40);
+                    htmlEditor.setPrefHeight(htmlEditor.getPrefHeight() + 40);
+                    AnchorPane.setBottomAnchor(htmlEditor,AnchorPane.getBottomAnchor(htmlEditor) - 40);
                 }
             });
         }
