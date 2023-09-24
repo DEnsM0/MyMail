@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -23,9 +24,6 @@ public class EmailDetailsController extends CommonController implements Initiali
 
     @FXML
     private HBox attachmentsHBox;
-
-    @FXML
-    private Label attachmentsLabel;
 
     @FXML
     private Label senderLabel;
@@ -44,9 +42,9 @@ public class EmailDetailsController extends CommonController implements Initiali
         EmailMessage emailMassage = getEmailManager().getSelectedMessage();
         subjectLabel.setText(emailMassage.getSubject());
         senderLabel.setText(emailMassage.getSender());
-        
+
         loadAttachments(emailMassage);
-        
+
         MessageRenderService messageRenderService = new MessageRenderService(webView.getEngine());
         messageRenderService.setEmailMessage(emailMassage);
         messageRenderService.restart();
@@ -58,12 +56,12 @@ public class EmailDetailsController extends CommonController implements Initiali
                 try {
                     AttachmentButton button = new AttachmentButton(DOWNLOADS_PATH, attachment);
                     attachmentsHBox.getChildren().add(button);
+                    webView.setPrefHeight(webView.getPrefHeight() - 40);
+                    AnchorPane.setBottomAnchor(webView,AnchorPane.getBottomAnchor(webView) + 40);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
             }
-        } else{
-            attachmentsLabel.setText("");
         }
     }
 }

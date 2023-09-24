@@ -1,5 +1,6 @@
 package com.email.model;
 
+import com.email.visuals.IconResolver;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.Button;
@@ -11,13 +12,24 @@ import java.io.File;
 import java.io.IOException;
 
 public class AttachmentButton extends Button {
+    private static final String DEFAULT_STYLE = """
+                    -fx-background-color: transparent;
+                    -fx-border-color: lightgray;
+                    -fx-border-radius: 0;
+                        -fx-border-width: 1px;
+                        -fx-padding: 5px;
+                        -fx-cursor: hand;""";
     private String downloadedFilePath;
     private MimeBodyPart mimeBodyPart;
+
+    private IconResolver iconResolver = new IconResolver();
 
     public AttachmentButton(String downloadsPath, MimeBodyPart mimeBodyPart) throws MessagingException {
         this.downloadedFilePath = downloadsPath + mimeBodyPart.getFileName();
         this.mimeBodyPart = mimeBodyPart;
         this.setText(mimeBodyPart.getFileName());
+        this.setStyle( DEFAULT_STYLE);
+        this.setGraphic(iconResolver.getAttachmentIcon(mimeBodyPart.getFileName()));
         if(new File(downloadedFilePath).exists()){
             colorGreen();
         }
@@ -84,11 +96,11 @@ public class AttachmentButton extends Button {
     }
 
     private void colorBlue(){
-        this.setStyle("-fx-background-color: #4E91FD");
+        this.setStyle(DEFAULT_STYLE + "-fx-background-color: #4E91FD");
     }
 
     private void colorGreen(){
-        this.setStyle("-fx-background-color: #a2d895");
+        this.setStyle(DEFAULT_STYLE + "-fx-background-color: #a2d895");
     }
 
     
