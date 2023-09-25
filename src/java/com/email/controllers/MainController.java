@@ -17,7 +17,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController extends CommonController implements Initializable {
@@ -52,6 +54,15 @@ public class MainController extends CommonController implements Initializable {
     @FXML
     void composeEmailAction() {
         getViewFactory().showComposeEmail();
+    }
+    @FXML
+    void openAbout() {
+        getViewFactory().showAbout();
+    }
+    @FXML
+    void exitAction() {
+        List<Stage> stagesToClose = new ArrayList<>(ViewFactory.getActiveStages());
+        stagesToClose.stream().forEach(ViewFactory::closeStage);
     }
 
     public MainController(EmailManager emailManager, ViewFactory viewFactory, String fxml, Stage stage) {
